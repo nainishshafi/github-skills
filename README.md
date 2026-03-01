@@ -28,6 +28,13 @@ Runs ruff (lint + format) and optionally mypy (type checking) on Python code. Au
 
 **Prerequisites:** Python on PATH — skill creates `.venv` and installs `ruff`/`mypy` automatically
 
+### `github-security-scanner-hook`
+Scans staged files for secrets and code-level security vulnerabilities before every git commit. Language-agnostic — works with Python, JavaScript, Go, Ruby, and more. Uses `detect-secrets` for credential/key detection and `semgrep` with 20 bundled rules for injection flaws, XSS, path traversal, and other OWASP patterns. Can install a git pre-commit hook to automate scanning on every commit.
+
+**Trigger phrases:** "scan for security vulnerabilities", "check for secrets in code", "set up a pre-commit security hook", "scan staged files for secrets", "check for hardcoded credentials", "detect leaked API keys", "scan for SQL injection", "check for XSS vulnerabilities"
+
+**Prerequisites:** Python on PATH — skill creates `.venv` and installs `detect-secrets` and `semgrep` automatically
+
 ## Usage
 
 These skills are loaded automatically by Claude Code from `.github/skills/`. Invoke them by using any of the trigger phrases above in your Claude Code session.
@@ -54,8 +61,17 @@ These skills are loaded automatically by Claude Code from `.github/skills/`. Inv
     │   │   └── skill-anatomy.md
     │   └── scripts/
     │       └── scaffold-skill.py
-    └── python-linter/
+    ├── python-linter/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── python-linter-reference.md
+    └── github-security-scanner-hook/
         ├── SKILL.md
-        └── references/
-            └── python-linter-reference.md
+        ├── references/
+        │   └── github-security-scanner-hook-reference.md
+        ├── rules/
+        │   └── security.yml
+        └── scripts/
+            ├── scan-staged.py
+            └── install-hook.py
 ```
