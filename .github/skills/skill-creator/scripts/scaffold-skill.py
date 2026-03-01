@@ -165,12 +165,20 @@ def main() -> None:
 
     # Define output paths
     skill_md_path = os.path.join(skill_dir, "SKILL.md")
-    reference_md_path = os.path.join(skill_dir, "references", f"{skill_name}-reference.md")
+    reference_md_path = os.path.join(
+        skill_dir, "references", f"{skill_name}-reference.md"
+    )
     gitkeep_path = os.path.join(skill_dir, "scripts", ".gitkeep")
 
     # Write files
-    write_file(skill_md_path, SKILL_MD_TEMPLATE.format(skill_name=skill_name, skill_title=title))
-    write_file(reference_md_path, REFERENCE_MD_TEMPLATE.format(skill_name=skill_name, skill_title=title))
+    write_file(
+        skill_md_path,
+        SKILL_MD_TEMPLATE.format(skill_name=skill_name, skill_title=title),
+    )
+    write_file(
+        reference_md_path,
+        REFERENCE_MD_TEMPLATE.format(skill_name=skill_name, skill_title=title),
+    )
     touch_file(gitkeep_path)
 
     # Report created paths to stdout (one per line)

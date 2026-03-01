@@ -56,8 +56,8 @@ OUTPUT_DIR = ".scan-readme-results"
 def resolve_python() -> str:
     """Return the best available Python interpreter path."""
     candidates = [
-        Path(".venv") / "Scripts" / "python",   # Windows venv
-        Path(".venv") / "bin" / "python",        # Unix venv
+        Path(".venv") / "Scripts" / "python",  # Windows venv
+        Path(".venv") / "bin" / "python",  # Unix venv
     ]
     for candidate in candidates:
         if candidate.exists():
@@ -71,8 +71,7 @@ def find_readmes(root: Path) -> list[Path]:
     for dirpath, dirnames, filenames in os.walk(root):
         # Prune directories in-place to skip noise
         dirnames[:] = [
-            d for d in dirnames
-            if d not in SKIP_DIRS and not d.startswith(".")
+            d for d in dirnames if d not in SKIP_DIRS and not d.startswith(".")
         ]
         for fname in filenames:
             if fname.lower() in README_NAMES:
