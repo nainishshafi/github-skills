@@ -11,27 +11,28 @@ Run ruff (lint + format) and optionally mypy (type checking) on Python code. Aut
 ## Prerequisites
 
 - Python project with `.py` files
-- `ruff` installed — `pip install ruff` or via `uv add --dev ruff`
-- `mypy` installed (optional) — `pip install mypy` or via `uv add --dev mypy`
-
-If not installed, offer to install them before proceeding.
 
 ## Workflow
 
-### Step 1 — Check Tooling
+### Step 1 — Set Up `.venv`
 
-Verify ruff is available:
+Always use `.venv` — create it if it doesn't exist:
 
 ```bash
-ruff --version
+[ -d .venv ] || python -m venv .venv
+PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; else echo .venv/bin/python; fi)
 ```
 
-If missing, install:
+Install ruff into the venv if not already present:
 
 ```bash
-pip install ruff
-# or with uv:
-uv add --dev ruff
+$PYTHON -m ruff --version 2>/dev/null || $PYTHON -m pip install ruff
+```
+
+Optionally install mypy for type checking:
+
+```bash
+$PYTHON -m mypy --version 2>/dev/null || $PYTHON -m pip install mypy
 ```
 
 Check for an existing `pyproject.toml` or `ruff.toml` config. If neither exists, offer to create a sensible default (see `references/python-linter-reference.md` for the recommended config).
@@ -39,26 +40,26 @@ Check for an existing `pyproject.toml` or `ruff.toml` config. If neither exists,
 ### Step 2 — Run Ruff Lint (with auto-fix)
 
 ```bash
-ruff check --fix .
+$PYTHON -m ruff check --fix .
 ```
 
 - `--fix` auto-corrects safe issues (unused imports, style violations, etc.)
 - Note any remaining violations that require manual fixes
 - If the user wants to see all issues first without fixing:
   ```bash
-  ruff check .
+  $PYTHON -m ruff check .
   ```
 
 ### Step 3 — Run Ruff Format
 
 ```bash
-ruff format .
+$PYTHON -m ruff format .
 ```
 
 - Formats all `.py` files in place (replaces black + isort)
 - To preview changes without applying:
   ```bash
-  ruff format --diff .
+  $PYTHON -m ruff format --diff .
   ```
 
 ### Step 4 — Run Type Checking (optional)
@@ -66,13 +67,13 @@ ruff format .
 Ask the user if they want type checking. If yes:
 
 ```bash
-mypy .
+$PYTHON -m mypy .
 ```
 
 Or for stricter checking:
 
 ```bash
-mypy --strict .
+$PYTHON -m mypy --strict .
 ```
 
 See `references/python-linter-reference.md` for mypy configuration options.
