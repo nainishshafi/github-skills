@@ -16,6 +16,18 @@ Syncs all your GitHub forked repositories — clones missing ones and pulls exis
 
 **Prerequisites:** `gh` CLI (authenticated), `jq`, `git`, SSH key added to GitHub
 
+### `skill-creator`
+Scaffolds and writes new Claude Code skills following established conventions. Handles both reference/knowledge skills (rich documentation) and task/action skills (step-by-step workflows with scripts). Includes a Python script that generates the folder and boilerplate files.
+
+**Trigger phrases:** "create a new skill", "add a skill", "write a skill", "scaffold a skill", "build a skill"
+
+### `commit-message-generator`
+Inspects staged or unstaged git changes and generates a structured commit message following the Conventional Commits format. Includes a full type reference, decision tree, and examples.
+
+**Trigger phrases:** "generate a commit message", "write a commit message", "what should my commit message be", "summarize my changes for git"
+
+**Prerequisites:** `git` on PATH, inside a git repository
+
 ## Usage
 
 These skills are loaded automatically by Claude Code from `.github/skills/`. Invoke them by using any of the trigger phrases above in your Claude Code session.
@@ -31,9 +43,19 @@ These skills are loaded automatically by Claude Code from `.github/skills/`. Inv
     │   │   └── search-patterns.md
     │   └── scripts/
     │       └── find-readmes.py
-    └── sync-github-forks/
+    ├── sync-github-forks/
+    │   ├── SKILL.md
+    │   └── scripts/
+    │       ├── setup-ssh.sh
+    │       └── sync-forks.sh
+    ├── skill-creator/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   └── skill-anatomy.md
+    │   └── scripts/
+    │       └── scaffold-skill.py
+    └── commit-message-generator/
         ├── SKILL.md
-        └── scripts/
-            ├── setup-ssh.sh
-            └── sync-forks.sh
+        └── references/
+            └── commit-message-generator-reference.md
 ```
