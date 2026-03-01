@@ -1,11 +1,11 @@
-# github-skills
+# developer-productivity-skills
 
-A collection of Claude Code skills stored in `.github/skills/`, providing reusable workflows for common development tasks.
+A collection of reusable AI skills stored in `.github/skills/`, compatible with **Claude Code** and **GitHub Copilot**. These skills provide ready-made workflows for common development tasks — invoke them by typing a trigger phrase in your AI session.
 
 ## Skills
 
 ### `scan-repo-readme`
-Efficiently locate and extract information from repository README files and available Claude Code skills (`SKILL.md` files). Uses a lightweight subagent to perform dual-phase search (keyword + semantic) and writes results to a timestamped file. When no query is provided, returns a full README summary alongside a skills inventory (name, description, trigger phrases).
+Efficiently locate and extract information from repository README files and available skills (`SKILL.md` files). Uses a lightweight subagent to perform dual-phase search (keyword + semantic) and writes results to a timestamped file. When no query is provided, returns a full README summary alongside a skills inventory (name, description, trigger phrases).
 
 **Trigger phrases:** "scan the readme", "search the readme for X", "what does the readme say about Y", "summarize the readme", "what skills are available", "list all skills"
 
@@ -17,7 +17,7 @@ Syncs all your GitHub forked repositories — clones missing ones and pulls exis
 **Prerequisites:** `gh` CLI (authenticated), `jq`, `git`, SSH key added to GitHub
 
 ### `skill-creator`
-Scaffolds and writes new Claude Code skills following established conventions. Handles both reference/knowledge skills (rich documentation) and task/action skills (step-by-step workflows with scripts). Includes a Python script that generates the folder and boilerplate files.
+Scaffolds and writes new skills following established conventions. Handles both reference/knowledge skills (rich documentation) and task/action skills (step-by-step workflows with scripts). Includes a Python script that generates the folder and boilerplate files.
 
 **Trigger phrases:** "create a new skill", "add a skill", "write a skill", "scaffold a skill", "build a skill"
 
@@ -37,7 +37,11 @@ Scans staged files for secrets and code-level security vulnerabilities before ev
 
 ## Usage
 
-These skills are loaded automatically by Claude Code from `.github/skills/`. Invoke them by using any of the trigger phrases above in your Claude Code session.
+### Claude Code
+Skills are loaded automatically from `.github/skills/`. Invoke them by using any trigger phrase above in your Claude Code session.
+
+### GitHub Copilot
+Skills in `.github/skills/` are picked up as custom instructions by Copilot Chat. Use the same trigger phrases in Copilot Chat, or reference a skill by name (e.g. `@workspace /python-linter`).
 
 ## Structure
 
