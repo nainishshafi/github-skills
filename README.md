@@ -21,13 +21,6 @@ Scaffolds and writes new Claude Code skills following established conventions. H
 
 **Trigger phrases:** "create a new skill", "add a skill", "write a skill", "scaffold a skill", "build a skill"
 
-### `commit-message-generator`
-Inspects staged or unstaged git changes and generates a structured commit message following the Conventional Commits format. Includes a full type reference, decision tree, and examples.
-
-**Trigger phrases:** "generate a commit message", "write a commit message", "what should my commit message be", "summarize my changes for git"
-
-**Prerequisites:** `git` on PATH, inside a git repository
-
 ## Usage
 
 These skills are loaded automatically by Claude Code from `.github/skills/`. Invoke them by using any of the trigger phrases above in your Claude Code session.
@@ -48,14 +41,10 @@ These skills are loaded automatically by Claude Code from `.github/skills/`. Inv
     │   └── scripts/
     │       ├── setup-ssh.sh
     │       └── sync-forks.sh
-    ├── skill-creator/
-    │   ├── SKILL.md
-    │   ├── references/
-    │   │   └── skill-anatomy.md
-    │   └── scripts/
-    │       └── scaffold-skill.py
-    └── commit-message-generator/
+    └── skill-creator/
         ├── SKILL.md
-        └── references/
-            └── commit-message-generator-reference.md
+        ├── references/
+        │   └── skill-anatomy.md
+        └── scripts/
+            └── scaffold-skill.py
 ```
