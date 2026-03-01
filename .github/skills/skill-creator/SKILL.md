@@ -43,7 +43,9 @@ Collect from the user:
 Run the scaffold script to create the directory structure and boilerplate:
 
 ```bash
-PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; elif [ -f .venv/bin/python ]; then echo .venv/bin/python; else echo python3; fi) && $PYTHON .github/skills/skill-creator/scripts/scaffold-skill.py <skill-name> [base-path]
+[ -d .venv ] || python -m venv .venv
+PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; else echo .venv/bin/python; fi)
+$PYTHON .github/skills/skill-creator/scripts/scaffold-skill.py <skill-name> [base-path]
 ```
 
 - Default `base-path` is `.github/skills/`

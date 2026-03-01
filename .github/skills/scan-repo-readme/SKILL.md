@@ -15,7 +15,9 @@ Efficiently locate and extract information from repository README files using a 
 Run this exact Bash command — it auto-detects the `.venv` interpreter before invoking the script:
 
 ```bash
-PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; elif [ -f .venv/bin/python ]; then echo .venv/bin/python; else echo python3; fi) && $PYTHON .github/skills/scan-repo-readme/scripts/find-readmes.py
+[ -d .venv ] || python -m venv .venv
+PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; else echo .venv/bin/python; fi)
+$PYTHON .github/skills/scan-repo-readme/scripts/find-readmes.py
 ```
 
 The script prints to stdout:
@@ -35,7 +37,9 @@ Pass only the necessary context — no conversation history. Construct the promp
 
 ```
 You are a README scanner. Read the listed files and write a structured report to the output file.
-For any Python execution, auto-detect the interpreter: `PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; elif [ -f .venv/bin/python ]; then echo .venv/bin/python; else echo python3; fi)`
+For any Python execution, always use `.venv` — create it if missing:
+`[ -d .venv ] || python -m venv .venv`
+`PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; else echo .venv/bin/python; fi)`
 
 README files to scan:
 {paste file paths from Step 1, one per line}

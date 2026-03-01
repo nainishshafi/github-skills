@@ -264,12 +264,12 @@ if __name__ == "__main__":
 
 ### Cross-Platform Python Resolver
 
-Use this pattern to auto-detect the right Python interpreter on both Windows and Unix:
+Always use `.venv` — create it first if it doesn't exist, then resolve the correct path for Windows or Unix:
 
 ```bash
-PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; \
-  elif [ -f .venv/bin/python ]; then echo .venv/bin/python; \
-  else echo python3; fi) && $PYTHON path/to/script.py
+[ -d .venv ] || python -m venv .venv
+PYTHON=$(if [ -f .venv/Scripts/python ]; then echo .venv/Scripts/python; else echo .venv/bin/python; fi)
+$PYTHON path/to/script.py
 ```
 
 ### Output Format Convention
