@@ -61,6 +61,19 @@ Efficiently locate and extract information from repository README files. Uses a 
 
 **Trigger phrases:** "scan the readme", "read the repo readme", "check the project documentation", "search the readme for X", "what does the readme say about Y", "summarize the readme", "find readme", "look up X in the readme"
 
+---
+
+### `design-pattern-detector`
+Detects design patterns and anti-patterns in source code using structural extraction (Python AST, regex for other languages) combined with a subagent for contextual reasoning. Supports single-file and repo-wide modes with staleness checking — skips regeneration if the source file has not changed since the last run. Output is written to `.pattern-analysis/` mirroring the source file structure, with a `_index.md` summary for repo-wide scans.
+
+**Design patterns:** Singleton, Factory, Observer, Strategy, Builder, Decorator, Repository, Command, Template Method
+
+**Anti-patterns:** God Object, Long Method, Feature Envy
+
+**Trigger phrases:** "detect design patterns", "find patterns in this file", "analyze code for patterns", "check for anti-patterns", "pattern analysis", "is this a singleton", "detect god object", "find factory pattern", "check for strategy pattern", "scan for design patterns", "what patterns does this code use", "find anti-patterns", "pattern audit"
+
+**Supported languages:** Python (AST), Java, JavaScript, TypeScript, Go, C# (regex), Ruby, Rust, C++, C (fallback)
+
 ## Usage
 
 ### Claude Code
@@ -110,10 +123,16 @@ Skills in `.github/skills/` are picked up as custom instructions by Copilot Chat
     │   └── scripts/
     │       ├── setup-ssh.sh
     │       └── sync-forks.sh
-    └── scan-repo-readme/
+    ├── scan-repo-readme/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   └── search-patterns.md
+    │   └── scripts/
+    │       └── find-readmes.py
+    └── design-pattern-detector/
         ├── SKILL.md
         ├── references/
-        │   └── search-patterns.md
+        │   └── design-pattern-detector-reference.md
         └── scripts/
-            └── find-readmes.py
+            └── extract-patterns.py
 ```
