@@ -66,14 +66,37 @@ def resolve_python() -> str:
     return "python3"
 
 
-def find_readmes(root: Path) -> list[Path]:
-    """Walk the repo and return paths of all README files."""
+def find_readmes(root: Path, root_only: bool = False) -> list[Path]:
+    """Return README files.
+
+    If `root_only` is True, include only the repository root README and
+    README files located directly under immediate child directories.
+    Otherwise walk the repo recursively (skipping SKIP_DIRS).
+    """
     found: list[Path] = []
+    if root_only:
+        # repo root
+        for name in README_NAMES:
+            p = root / name
+            if p.exists():
+                found.append(p)
+                break
+        # immediate children (one level deep)
+        for child in root.iterdir():
+            if not child.is_dir():
+                continue
+            if child.name.startswith('.') or child.name in SKIP_DIRS:
+                continue
+            for name in README_NAMES:
+                p = child / name
+                if p.exists():
+                    found.append(p)
+                    break
+        return sorted(found)
+
     for dirpath, dirnames, filenames in os.walk(root):
         # Prune directories in-place to skip noise
-        dirnames[:] = [
-            d for d in dirnames if d not in SKIP_DIRS and not d.startswith(".")
-        ]
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for fname in filenames:
             if fname.lower() in README_NAMES:
                 found.append(Path(dirpath) / fname)
@@ -82,15 +105,21 @@ def find_readmes(root: Path) -> list[Path]:
 
 def find_skills(root: Path) -> list[Path]:
     """Find all SKILL.md files under .github/skills/."""
-    if ".github" in SKIP_DIRS:
-        return []
     skills_dir = root / ".github" / "skills"
     if not skills_dir.is_dir():
         return []
-    return sorted(skills_dir.glob("*/SKILL.md"))
+    # Recurse to find SKILL.md in nested skill folders
+    return sorted(skills_dir.rglob("SKILL.md"))
 
 
 def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Find README and SKILL.md files for scan-repo-readme skill")
+    parser.add_argument("--root-only", action="store_true", help="Limit results to repo root + immediate child directories")
+    parser.add_argument("--include-skills", action="store_true", help="Also print .github/skills SKILL.md files (off by default)")
+    args = parser.parse_args()
+
     root = Path.cwd()
 
     # Create output directory and build timestamped output path
@@ -103,14 +132,16 @@ def main() -> None:
     print(output_path)
 
     # Find and print README file paths
-    readmes = find_readmes(root)
+    readmes = find_readmes(root, root_only=args.root_only)
     for readme in readmes:
         print(readme)
 
-    # Find and print SKILL.md file paths
-    skills = find_skills(root)
-    for skill in skills:
-        print(skill)
+    # Optionally print SKILL.md file paths (recursive under .github/skills)
+    skills: list[Path] = []
+    if args.include_skills:
+        skills = find_skills(root)
+        for skill in skills:
+            print(skill)
 
     if not readmes and not skills:
         # Print a warning to stderr so it doesn't pollute the stdout protocol

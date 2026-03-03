@@ -48,16 +48,16 @@ Scans staged files for secrets and code-level security vulnerabilities before ev
 ---
 
 ### `sync-github-forks`
-Syncs all your GitHub forked repositories — clones missing ones and pulls existing ones. Uses the `gh` CLI for authentication, no token config needed.
+Syncs all your GitHub forked repositories — clones missing ones and pulls existing ones. Uses the `gh` CLI for authentication, no token config needed. Cross-platform: PowerShell script for Windows, Bash script for Linux/macOS.
 
 **Trigger phrases:** "sync github forks", "sync forks", "pull all my forks"
 
-**Prerequisites:** `gh` CLI (authenticated), `jq`, `git`, SSH key added to GitHub
+**Prerequisites:** `gh` CLI (authenticated), `git`, SSH key added to GitHub. Linux/macOS also requires `jq`.
 
 ---
 
 ### `scan-repo-readme`
-Efficiently locate and extract information from repository README files. Uses a lightweight subagent to perform dual-phase search (keyword + semantic) and writes results to a timestamped file under `.scan-readme-results/`. When no query is provided, returns a full summary of all README files found.
+Efficiently locate and extract information from repository README files. Uses a lightweight subagent to perform dual-phase search (keyword + semantic) and writes results to a timestamped file under `.scan-readme-results/`. Defaults to `--root-only` mode to avoid noisy results from nested packages and virtualenvs. When no query is provided, returns a full summary of all README files found.
 
 **Trigger phrases:** "scan the readme", "read the repo readme", "check the project documentation", "search the readme for X", "what does the readme say about Y", "summarize the readme", "find readme", "look up X in the readme"
 
@@ -73,6 +73,13 @@ Detects design patterns and anti-patterns in source code using structural extrac
 **Trigger phrases:** "detect design patterns", "find patterns in this file", "analyze code for patterns", "check for anti-patterns", "pattern analysis", "is this a singleton", "detect god object", "find factory pattern", "check for strategy pattern", "scan for design patterns", "what patterns does this code use", "find anti-patterns", "pattern audit"
 
 **Supported languages:** Python (AST), Java, JavaScript, TypeScript, Go, C# (regex), Ruby, Rust, C++, C (fallback)
+
+---
+
+### `architectural-planning`
+Interactively guides you through architectural decisions for a new or existing project. Asks structured questions about project type, backend/frontend stack, database, caching, authentication, messaging, deployment, CI/CD, and monitoring — recommending compatible technologies at each step with specific library and version suggestions. Generates a comprehensive architecture document with Mermaid diagrams, component breakdown, data model, API design, security architecture, deployment topology, and project directory layout.
+
+**Trigger phrases:** "plan my architecture", "design system architecture", "create an architecture document", "help me choose a tech stack", "what technologies should I use", "recommend a database for my project", "architecture planning", "tech stack recommendation", "design my API layer", "create a system design"
 
 ## Usage
 
@@ -122,17 +129,22 @@ Skills in `.github/skills/` are picked up as custom instructions by Copilot Chat
     │   ├── SKILL.md
     │   └── scripts/
     │       ├── setup-ssh.sh
-    │       └── sync-forks.sh
+    │       ├── sync-forks.sh
+    │       └── sync-forks.ps1
     ├── scan-repo-readme/
     │   ├── SKILL.md
     │   ├── references/
     │   │   └── search-patterns.md
     │   └── scripts/
     │       └── find-readmes.py
-    └── design-pattern-detector/
+    ├── design-pattern-detector/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   └── design-pattern-detector-reference.md
+    │   └── scripts/
+    │       └── extract-patterns.py
+    └── architectural-planning/
         ├── SKILL.md
-        ├── references/
-        │   └── design-pattern-detector-reference.md
-        └── scripts/
-            └── extract-patterns.py
+        └── references/
+            └── architectural-planning-reference.md
 ```
